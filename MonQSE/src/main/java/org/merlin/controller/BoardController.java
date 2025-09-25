@@ -18,8 +18,13 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @GetMapping("/board")
-    public Board getBoard(@RequestParam String id){
+    @GetMapping("/allBoards")
+    public List<Board> getAllBoard(){
+        return boardService.getAllBoard();
+    }
+
+    @GetMapping("/boardById")
+    public Board getBoardById(@RequestParam String id){
         Optional<Board> board = boardService.getBoardByID(id);
         if (board.isPresent())
             return (Board) board.get();
@@ -31,8 +36,14 @@ public class BoardController {
         boardService.addBoard(board);
     }
 
-    @GetMapping("/allBoards")
-    public List<Board> getBoard(){
-        return boardService.getAllBoard();
+    @PutMapping("/updateBoard")
+    public void updateBoard(@RequestBody Board board, String id){
+        boardService.updateBoard(board, id);
     }
+
+    @DeleteMapping("/delBoard")
+    public void delBoard(@RequestParam String id){
+        boardService.delBoardById(id);
+    }
+
 }
