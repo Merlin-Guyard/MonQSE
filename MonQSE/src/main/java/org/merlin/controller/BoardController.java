@@ -5,8 +5,7 @@ import org.merlin.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class BoardController {
@@ -32,14 +31,19 @@ public class BoardController {
     }
 
     @PostMapping("/addBoard")
-    public void addBoard(@RequestBody Board board){
-        boardService.addBoard(board);
+    public void addBoard(@RequestBody Map<String, Object> board){
+        String name = (String) board.get("name");
+
+        Map<String, Object> data = new HashMap<>(board);
+        data.remove("name");
+
+        boardService.addBoard(name, data);
     }
 
-    @PutMapping("/updateBoard")
-    public void updateBoard(@RequestBody Board board, String id){
-        boardService.updateBoard(board, id);
-    }
+//    @PutMapping("/updateBoard")
+//    public void updateBoard(@RequestBody Board board, String id){
+//        boardService.updateBoard(board, id);
+//    }
 
     @DeleteMapping("/delBoard")
     public void delBoard(@RequestParam String id){
